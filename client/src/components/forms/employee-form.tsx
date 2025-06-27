@@ -102,14 +102,14 @@ export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeForm
           render={({ field }) => (
             <FormItem>
               <FormLabel>Маршрут (необязательно)</FormLabel>
-              <Select onValueChange={(value) => field.onChange(value ? parseInt(value) : null)} defaultValue={field.value?.toString()}>
+              <Select onValueChange={(value) => field.onChange(value === "none" ? null : parseInt(value))} defaultValue={field.value?.toString() || "none"}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Выберите маршрут" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="">Не назначен</SelectItem>
+                  <SelectItem value="none">Не назначен</SelectItem>
                   {routes.map((route: any) => (
                     <SelectItem key={route.id} value={route.id.toString()}>
                       {route.name} ({route.occupancy}/{route.capacity} мест)

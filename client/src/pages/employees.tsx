@@ -16,7 +16,7 @@ import type { InsertEmployee, EmployeeWithRoute } from "@shared/schema";
 export default function Employees() {
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [shiftFilter, setShiftFilter] = useState("");
+  const [shiftFilter, setShiftFilter] = useState("all");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -71,7 +71,7 @@ export default function Employees() {
   const filteredEmployees = employees.filter(employee => {
     const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          employee.address.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesShift = !shiftFilter || employee.shift === shiftFilter;
+    const matchesShift = !shiftFilter || shiftFilter === "all" || employee.shift === shiftFilter;
     return matchesSearch && matchesShift;
   });
 
@@ -131,7 +131,7 @@ export default function Employees() {
                   <SelectValue placeholder="Все смены" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все смены</SelectItem>
+                  <SelectItem value="all">Все смены</SelectItem>
                   <SelectItem value="morning">Утренняя</SelectItem>
                   <SelectItem value="evening">Вечерняя</SelectItem>
                 </SelectContent>
