@@ -57,7 +57,7 @@ export default function Map() {
     const initializeMap = () => {
       if (!mapRef.current || map) return;
 
-      const leafletMap = window.L.map(mapRef.current).setView([55.7558, 37.6176], 10);
+      const leafletMap = window.L.map(mapRef.current).setView([51.1694, 71.4491], 10);
 
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
@@ -117,9 +117,9 @@ export default function Map() {
       filteredRoutes.forEach((route) => {
         route.stops.forEach((stop, index) => {
           // In a real implementation, you would geocode the address to get coordinates
-          // For now, we'll place stops around the center with some offset
-          const lat = 55.7558 + (Math.random() - 0.5) * 0.1;
-          const lng = 37.6176 + (Math.random() - 0.5) * 0.1;
+          // For now, we'll place stops around Astana center with some offset
+          const lat = 51.1694 + (Math.random() - 0.5) * 0.1;
+          const lng = 71.4491 + (Math.random() - 0.5) * 0.1;
           
           const stopMarker = window.L.marker([lat, lng], {
             icon: window.L.divIcon({

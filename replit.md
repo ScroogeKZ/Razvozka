@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack employee transportation management system built with React, Node.js, Express, and PostgreSQL. The application helps organizations manage employee transportation routes, vehicle assignments, and optimize route allocations using automated algorithms. The system provides comprehensive dashboards for managing employees, routes, vehicles, and generating detailed reports.
+This is a full-stack employee transportation management system built with React, Node.js, Express, and PostgreSQL, specifically adapted for Astana, Kazakhstan. The application helps organizations manage employee transportation routes, vehicle assignments, and optimize route allocations using automated algorithms. The system provides comprehensive dashboards for managing employees, routes, vehicles, and generating detailed reports with Kazakh localization and authentic Astana geographic data.
 
 ## System Architecture
 
@@ -107,6 +107,7 @@ The system includes sophisticated assignment algorithms that consider:
 ## Changelog
 - June 27, 2025. Initial setup with in-memory storage
 - June 27, 2025. Added PostgreSQL database with Drizzle ORM integration
+- June 27, 2025. Complete Astana, Kazakhstan adaptation with local map coordinates, Kazakh employee names, authentic Astana locations and routes
 
 ## User Preferences
 
