@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -92,3 +93,38 @@ export type AssignmentWithDetails = Assignment & {
   employee: Employee;
   route: Route;
 };
+
+// Relations
+export const employeesRelations = relations(employees, ({ one }) => ({
+  route: one(routes, {
+    fields: [employees.routeId],
+    references: [routes.id],
+  }),
+}));
+
+export const routesRelations = relations(routes, ({ many, one }) => ({
+  employees: many(employees),
+  vehicle: one(vehicles, {
+    fields: [routes.id],
+    references: [vehicles.routeId],
+  }),
+  assignments: many(assignments),
+}));
+
+export const vehiclesRelations = relations(vehicles, ({ one }) => ({
+  route: one(routes, {
+    fields: [vehicles.routeId],
+    references: [routes.id],
+  }),
+}));
+
+export const assignmentsRelations = relations(assignments, ({ one }) => ({
+  employee: one(employees, {
+    fields: [assignments.employeeId],
+    references: [employees.id],
+  }),
+  route: one(routes, {
+    fields: [assignments.routeId],
+    references: [routes.id],
+  }),
+}));

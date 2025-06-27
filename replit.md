@@ -105,7 +105,8 @@ The system includes sophisticated assignment algorithms that consider:
 - **NODE_ENV**: Environment mode (development/production)
 
 ## Changelog
-- June 27, 2025. Initial setup
+- June 27, 2025. Initial setup with in-memory storage
+- June 27, 2025. Added PostgreSQL database with Drizzle ORM integration
 
 ## User Preferences
 
