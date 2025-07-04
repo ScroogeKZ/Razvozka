@@ -68,9 +68,9 @@ export function getRouteEfficiency(route: Route, assignedEmployees: Employee[]):
 export function getShiftLabel(shift: string): string {
   switch (shift) {
     case "morning":
-      return "Утренняя";
+      return "Таңертеңгі";
     case "evening":
-      return "Вечерняя";
+      return "Кешкі";
     default:
       return shift;
   }
@@ -85,4 +85,31 @@ export function getShiftColor(shift: string): string {
     default:
       return "bg-gray-100 text-gray-800";
   }
+}
+
+// Kazakhstan-specific utilities
+export function formatKazakhPhone(phone: string): string {
+  // Format Kazakhstan phone numbers: +7 (7XX) XXX-XX-XX
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length === 11 && cleaned.startsWith('7')) {
+    return `+7 (${cleaned.slice(1, 4)}) ${cleaned.slice(4, 7)}-${cleaned.slice(7, 9)}-${cleaned.slice(9)}`;
+  }
+  return phone;
+}
+
+export function formatTime24H(time: string): string {
+  // Ensure 24-hour format is used (preferred in Kazakhstan)
+  return time;
+}
+
+export function getRegionName(city: string): string {
+  const regions: { [key: string]: string } = {
+    'Астана': 'Ақмола облысы',
+    'Алматы': 'Алматы облысы', 
+    'Шымкент': 'Түркістан облысы',
+    'Қарағанды': 'Қарағанды облысы',
+    'Ақтөбе': 'Ақтөбе облысы',
+    'Тараз': 'Жамбыл облысы'
+  };
+  return regions[city] || city;
 }

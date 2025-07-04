@@ -37,9 +37,9 @@ export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeForm
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имя сотрудника</FormLabel>
+              <FormLabel>Қызметкер аты-жөні</FormLabel>
               <FormControl>
-                <Input placeholder="Введите полное имя" {...field} />
+                <Input placeholder="Толық аты-жөнін енгізіңіз" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

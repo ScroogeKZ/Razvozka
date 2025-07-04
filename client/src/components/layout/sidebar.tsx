@@ -12,13 +12,13 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "Панель управления", href: "/", icon: LayoutDashboard },
-  { name: "Сотрудники", href: "/employees", icon: Users },
-  { name: "Маршруты", href: "/routes", icon: Route },
-  { name: "Транспорт", href: "/vehicles", icon: Car },
+  { name: "Басқару панелі", href: "/", icon: LayoutDashboard },
+  { name: "Қызметкерлер", href: "/employees", icon: Users },
+  { name: "Бағыттар", href: "/routes", icon: Route },
+  { name: "Көлік парк", href: "/vehicles", icon: Car },
   { name: "Карта", href: "/map", icon: Map },
-  { name: "Назначения", href: "/assignments", icon: ClipboardList },
-  { name: "Отчеты", href: "/reports", icon: FileText },
+  { name: "Тағайындаулар", href: "/assignments", icon: ClipboardList },
+  { name: "Есептер", href: "/reports", icon: FileText },
 ];
 
 export function Sidebar() {
@@ -32,8 +32,8 @@ export function Sidebar() {
             <Route className="text-white text-lg" size={20} />
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-slate-800">RouteManager</h1>
-            <p className="text-sm text-slate-500">Управление маршрутами</p>
+            <h1 className="text-lg font-semibold text-slate-800">BusManager</h1>
+            <p className="text-sm text-slate-500">Қызметкер көлігін басқару</p>
           </div>
         </div>
       </div>
@@ -70,8 +70,8 @@ export function Sidebar() {
             <UserCheck className="text-white text-sm" size={16} />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-800">Администратор</p>
-            <p className="text-xs text-slate-500">Полные права</p>
+            <p className="text-sm font-medium text-slate-800">Әкімші</p>
+            <p className="text-xs text-slate-500">Толық құқық</p>
           </div>
         </div>
       </div>

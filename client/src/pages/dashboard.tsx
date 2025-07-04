@@ -4,7 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Users, Route, Car, TrendingUp, UserPlus, Plus, Wand2 } from "lucide-react";
 
 export default function Dashboard() {
-  const { data: statistics } = useQuery({
+  const { data: statistics } = useQuery<{
+    totalEmployees: number;
+    activeRoutes: number;
+    totalVehicles: number;
+    efficiency: number;
+  }>({
     queryKey: ["/api/statistics"],
   });
 
@@ -27,7 +32,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600">Всего сотрудников</p>
+                <p className="text-sm text-slate-600">Барлық қызметкерлер</p>
                 <p className="text-2xl font-semibold text-slate-800">{stats.totalEmployees}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -36,7 +41,7 @@ export default function Dashboard() {
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">+12%</span>
-              <span className="text-slate-500 ml-2">за месяц</span>
+              <span className="text-slate-500 ml-2">айына</span>
             </div>
           </CardContent>
         </Card>
@@ -45,7 +50,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600">Активных маршрутов</p>
+                <p className="text-sm text-slate-600">Белсенді бағыттар</p>
                 <p className="text-2xl font-semibold text-slate-800">{stats.activeRoutes}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -54,7 +59,7 @@ export default function Dashboard() {
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">+3</span>
-              <span className="text-slate-500 ml-2">новых маршрута</span>
+              <span className="text-slate-500 ml-2">жаңа бағыт</span>
             </div>
           </CardContent>
         </Card>
@@ -63,7 +68,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-600">Транспортных средств</p>
+                <p className="text-sm text-slate-600">Көлік құралдары</p>
                 <p className="text-2xl font-semibold text-slate-800">{stats.totalVehicles}</p>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -72,7 +77,7 @@ export default function Dashboard() {
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">100%</span>
-              <span className="text-slate-500 ml-2">загруженность</span>
+              <span className="text-slate-500 ml-2">жүктеме</span>
             </div>
           </CardContent>
         </Card>
