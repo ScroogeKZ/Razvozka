@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertEmployeeSchema, type InsertEmployee } from "@shared/schema";
+import { insertEmployeeSchema, type InsertEmployee, type Route } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/lib/i18n";
 
 interface EmployeeFormProps {
   onSubmit: (data: InsertEmployee) => void;
@@ -14,6 +15,8 @@ interface EmployeeFormProps {
 }
 
 export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeFormProps) {
+  const { t } = useTranslation();
+  
   const form = useForm<InsertEmployee>({
     resolver: zodResolver(insertEmployeeSchema),
     defaultValues: {
@@ -25,7 +28,7 @@ export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeForm
     },
   });
 
-  const { data: routes = [] } = useQuery({
+  const { data: routes = [] } = useQuery<Route[]>({
     queryKey: ["/api/routes"],
   });
 
@@ -37,9 +40,9 @@ export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeForm
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Қызметкер аты-жөні</FormLabel>
+              <FormLabel>{t('employeeName')}</FormLabel>
               <FormControl>
-                <Input placeholder="Толық аты-жөнін енгізіңіз" {...field} />
+                <Input placeholder={t('fullNamePlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -51,9 +54,13 @@ export function EmployeeForm({ onSubmit, onCancel, defaultValues }: EmployeeForm
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Телефон</FormLabel>
+              <FormLabel>{t('phone')}</FormLabel>
               <FormControl>
-                <Input placeholder="+7 (999) 123-45-67" {...field} />
+                <Input 
+                  placeholder={t('phonePlaceholder')} 
+                  {...field} 
+                  value={field.value || ""}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

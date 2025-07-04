@@ -10,19 +10,21 @@ import {
   UserCheck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n";
 
-const navigation = [
-  { name: "Басқару панелі", href: "/", icon: LayoutDashboard },
-  { name: "Қызметкерлер", href: "/employees", icon: Users },
-  { name: "Бағыттар", href: "/routes", icon: Route },
-  { name: "Көлік парк", href: "/vehicles", icon: Car },
-  { name: "Карта", href: "/map", icon: Map },
-  { name: "Тағайындаулар", href: "/assignments", icon: ClipboardList },
-  { name: "Есептер", href: "/reports", icon: FileText },
-];
+const navigationKeys = [
+  { key: "dashboard", href: "/", icon: LayoutDashboard },
+  { key: "employees", href: "/employees", icon: Users },
+  { key: "routes", href: "/routes", icon: Route },
+  { key: "vehicles", href: "/vehicles", icon: Car },
+  { key: "map", href: "/map", icon: Map },
+  { key: "assignments", href: "/assignments", icon: ClipboardList },
+  { key: "reports", href: "/reports", icon: FileText },
+] as const;
 
 export function Sidebar() {
   const [location] = useLocation();
+  const { t } = useTranslation();
 
   return (
     <div className="w-64 bg-white shadow-lg flex flex-col">
@@ -32,20 +34,20 @@ export function Sidebar() {
             <Route className="text-white text-lg" size={20} />
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-slate-800">BusManager</h1>
-            <p className="text-sm text-slate-500">Қызметкер көлігін басқару</p>
+            <h1 className="text-lg font-semibold text-slate-800">{t('appName')}</h1>
+            <p className="text-sm text-slate-500">{t('appDescription')}</p>
           </div>
         </div>
       </div>
       
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
-          {navigation.map((item) => {
+          {navigationKeys.map((item) => {
             const isActive = location === item.href;
             const Icon = item.icon;
             
             return (
-              <li key={item.name}>
+              <li key={item.key}>
                 <Link 
                   href={item.href}
                   className={cn(
@@ -56,7 +58,7 @@ export function Sidebar() {
                   )}
                 >
                   <Icon size={20} />
-                  <span>{item.name}</span>
+                  <span>{t(item.key)}</span>
                 </Link>
               </li>
             );
@@ -70,8 +72,8 @@ export function Sidebar() {
             <UserCheck className="text-white text-sm" size={16} />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-800">Әкімші</p>
-            <p className="text-xs text-slate-500">Толық құқық</p>
+            <p className="text-sm font-medium text-slate-800">{t('admin')}</p>
+            <p className="text-xs text-slate-500">{t('fullAccess')}</p>
           </div>
         </div>
       </div>
