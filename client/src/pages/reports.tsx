@@ -15,8 +15,8 @@ import type { RouteWithDetails, EmployeeWithRoute, Vehicle } from "@shared/schem
 
 export default function Reports() {
   const [period, setPeriod] = useState("today");
-  const [routeFilter, setRouteFilter] = useState("");
-  const [shiftFilter, setShiftFilter] = useState("");
+  const [routeFilter, setRouteFilter] = useState("all");
+  const [shiftFilter, setShiftFilter] = useState("all");
   const [exportFormat, setExportFormat] = useState("excel");
   const [includePersonalData, setIncludePersonalData] = useState(true);
   const [includeAddresses, setIncludeAddresses] = useState(true);
@@ -125,8 +125,8 @@ export default function Reports() {
 
   // Filter data based on selections
   const filteredRoutes = routes.filter(route => {
-    const matchesRoute = !routeFilter || route.id === parseInt(routeFilter);
-    const matchesShift = !shiftFilter || route.departureTime < "12:00" ? "morning" === shiftFilter : "evening" === shiftFilter;
+    const matchesRoute = routeFilter === "all" || !routeFilter || route.id === parseInt(routeFilter);
+    const matchesShift = shiftFilter === "all" || !shiftFilter || route.departureTime < "12:00" ? "morning" === shiftFilter : "evening" === shiftFilter;
     return matchesRoute && matchesShift;
   });
 
@@ -195,7 +195,7 @@ export default function Reports() {
                   <SelectValue placeholder="Все маршруты" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все маршруты</SelectItem>
+                  <SelectItem value="all">Все маршруты</SelectItem>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id.toString()}>
                       {route.name}
@@ -212,7 +212,7 @@ export default function Reports() {
                   <SelectValue placeholder="Все смены" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все смены</SelectItem>
+                  <SelectItem value="all">Все смены</SelectItem>
                   <SelectItem value="morning">Утренняя</SelectItem>
                   <SelectItem value="evening">Вечерняя</SelectItem>
                 </SelectContent>
@@ -229,8 +229,8 @@ export default function Reports() {
               variant="outline" 
               onClick={() => {
                 setPeriod("today");
-                setRouteFilter("");
-                setShiftFilter("");
+                setRouteFilter("all");
+                setShiftFilter("all");
               }}
             >
               Сбросить фильтры
@@ -346,7 +346,7 @@ export default function Reports() {
                     <Checkbox 
                       id="personal-data"
                       checked={includePersonalData}
-                      onCheckedChange={setIncludePersonalData}
+                      onCheckedChange={(checked) => setIncludePersonalData(checked === true)}
                     />
                     <label htmlFor="personal-data" className="text-sm text-slate-700">
                       Личные данные сотрудников
@@ -356,7 +356,7 @@ export default function Reports() {
                     <Checkbox 
                       id="addresses"
                       checked={includeAddresses}
-                      onCheckedChange={setIncludeAddresses}
+                      onCheckedChange={(checked) => setIncludeAddresses(checked === true)}
                     />
                     <label htmlFor="addresses" className="text-sm text-slate-700">
                       Адреса остановок
@@ -366,7 +366,7 @@ export default function Reports() {
                     <Checkbox 
                       id="schedules"
                       checked={includeSchedules}
-                      onCheckedChange={setIncludeSchedules}
+                      onCheckedChange={(checked) => setIncludeSchedules(checked === true)}
                     />
                     <label htmlFor="schedules" className="text-sm text-slate-700">
                       Время посадки/высадки
@@ -376,7 +376,7 @@ export default function Reports() {
                     <Checkbox 
                       id="contacts"
                       checked={includeContacts}
-                      onCheckedChange={setIncludeContacts}
+                      onCheckedChange={(checked) => setIncludeContacts(checked === true)}
                     />
                     <label htmlFor="contacts" className="text-sm text-slate-700">
                       Контактные данные

@@ -17,7 +17,7 @@ declare global {
 export default function Map() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
-  const [selectedRoute, setSelectedRoute] = useState("");
+  const [selectedRoute, setSelectedRoute] = useState("all");
   const [showEmployees, setShowEmployees] = useState(true);
   const [showStops, setShowStops] = useState(true);
   const [showRoutes, setShowRoutes] = useState(true);
@@ -30,7 +30,12 @@ export default function Map() {
     queryKey: ["/api/routes"],
   });
 
-  const { data: statistics } = useQuery({
+  const { data: statistics } = useQuery<{
+    totalEmployees: number;
+    activeRoutes: number;
+    totalVehicles: number;
+    efficiency: number;
+  }>({
     queryKey: ["/api/statistics"],
   });
 
@@ -85,13 +90,13 @@ export default function Map() {
       }
     });
 
-    const filteredEmployees = selectedRoute 
-      ? employees.filter(emp => emp.routeId === parseInt(selectedRoute))
-      : employees;
+    const filteredEmployees = selectedRoute === "all" || !selectedRoute
+      ? employees
+      : employees.filter(emp => emp.routeId === parseInt(selectedRoute));
 
-    const filteredRoutes = selectedRoute 
-      ? routes.filter(route => route.id === parseInt(selectedRoute))
-      : routes;
+    const filteredRoutes = selectedRoute === "all" || !selectedRoute
+      ? routes
+      : routes.filter(route => route.id === parseInt(selectedRoute));
 
     // Add employee markers
     if (showEmployees) {
@@ -115,7 +120,8 @@ export default function Map() {
     // Add route stops
     if (showStops) {
       filteredRoutes.forEach((route) => {
-        route.stops.forEach((stop, index) => {
+        if (route.stops) {
+          route.stops.forEach((stop, index) => {
           // In a real implementation, you would geocode the address to get coordinates
           // For now, we'll place stops around Astana center with some offset
           const lat = 51.1694 + (Math.random() - 0.5) * 0.1;
@@ -137,7 +143,8 @@ export default function Map() {
               <p>Адрес: ${stop}</p>
             </div>
           `);
-        });
+          });
+        }
       });
     }
 
@@ -163,7 +170,7 @@ export default function Map() {
               <SelectValue placeholder="Все маршруты" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Все маршруты</SelectItem>
+              <SelectItem value="all">Все маршруты</SelectItem>
               {routes.map((route) => (
                 <SelectItem key={route.id} value={route.id.toString()}>
                   {route.name}
@@ -209,7 +216,7 @@ export default function Map() {
               <Checkbox
                 id="employees"
                 checked={showEmployees}
-                onCheckedChange={setShowEmployees}
+                onCheckedChange={(checked) => setShowEmployees(checked === true)}
               />
               <label htmlFor="employees" className="text-sm font-medium">
                 Показать сотрудников
@@ -219,7 +226,7 @@ export default function Map() {
               <Checkbox
                 id="stops"
                 checked={showStops}
-                onCheckedChange={setShowStops}
+                onCheckedChange={(checked) => setShowStops(checked === true)}
               />
               <label htmlFor="stops" className="text-sm font-medium">
                 Показать остановки
@@ -229,7 +236,7 @@ export default function Map() {
               <Checkbox
                 id="routes"
                 checked={showRoutes}
-                onCheckedChange={setShowRoutes}
+                onCheckedChange={(checked) => setShowRoutes(checked === true)}
               />
               <label htmlFor="routes" className="text-sm font-medium">
                 Показать маршруты
@@ -254,7 +261,7 @@ export default function Map() {
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-600">Остановок:</span>
               <span className="text-sm font-medium text-slate-800">
-                {routes.reduce((total, route) => total + route.stops.length, 0)}
+                {routes.reduce((total, route) => total + (route.stops ? route.stops.length : 0), 0)}
               </span>
             </div>
             <div className="flex items-center justify-between">

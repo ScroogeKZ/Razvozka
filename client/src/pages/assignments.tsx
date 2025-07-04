@@ -14,8 +14,8 @@ import type { InsertAssignment, AssignmentWithDetails, EmployeeWithRoute, RouteW
 export default function Assignments() {
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [selectedRoute, setSelectedRoute] = useState("");
-  const [routeFilter, setRouteFilter] = useState("");
-  const [shiftFilter, setShiftFilter] = useState("");
+  const [routeFilter, setRouteFilter] = useState("all");
+  const [shiftFilter, setShiftFilter] = useState("all");
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -114,8 +114,8 @@ export default function Assignments() {
 
   // Filter assignments by route and shift
   const filteredAssignments = assignmentsByRoute.filter(item => {
-    const matchesRoute = !routeFilter || item.id === parseInt(routeFilter);
-    const matchesShift = !shiftFilter || item.assignments.some(assignment => 
+    const matchesRoute = routeFilter === "all" || !routeFilter || item.id === parseInt(routeFilter);
+    const matchesShift = shiftFilter === "all" || !shiftFilter || item.assignments.some(assignment => 
       assignment.employee.shift === shiftFilter
     );
     return matchesRoute && matchesShift;
@@ -222,7 +222,7 @@ export default function Assignments() {
                   <SelectValue placeholder="Все маршруты" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все маршруты</SelectItem>
+                  <SelectItem value="all">Все маршруты</SelectItem>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id.toString()}>
                       {route.name}
@@ -235,7 +235,7 @@ export default function Assignments() {
                   <SelectValue placeholder="Все смены" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все смены</SelectItem>
+                  <SelectItem value="all">Все смены</SelectItem>
                   <SelectItem value="morning">Утренняя</SelectItem>
                   <SelectItem value="evening">Вечерняя</SelectItem>
                 </SelectContent>

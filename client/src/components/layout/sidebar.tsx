@@ -46,16 +46,17 @@ export function Sidebar() {
             
             return (
               <li key={item.name}>
-                <Link href={item.href}>
-                  <a className={cn(
+                <Link 
+                  href={item.href}
+                  className={cn(
                     "flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors",
                     isActive 
                       ? "text-primary bg-blue-50" 
                       : "text-slate-600 hover:bg-slate-100"
-                  )}>
-                    <Icon size={20} />
-                    <span>{item.name}</span>
-                  </a>
+                  )}
+                >
+                  <Icon size={20} />
+                  <span>{item.name}</span>
                 </Link>
               </li>
             );
